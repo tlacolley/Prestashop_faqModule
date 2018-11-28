@@ -1,2 +1,2 @@
-#formFAQ{display:flex;flex-direction:column;justify-content:center;width:80%;margin:auto;text-align:center}#formFAQ input{margin:1% 0;color:white}#formFAQ button{color:white;width:40%;margin:2% auto}
+.sec_formFAQ{background-color:lightgrey;margin:0 16%;padding:0 2%;border:solid 2px black}.sec_formFAQ h3{text-align:center}.sec_formFAQ #formFAQ{display:flex;flex-direction:column;justify-content:center;margin:auto;text-align:center}.sec_formFAQ #formFAQ input,.sec_formFAQ #formFAQ textarea{margin:1% 0;color:white;text-align:center}.sec_formFAQ #formFAQ button{color:white;margin:2% auto}
 /*# sourceMappingURL=faqModule.css.map */

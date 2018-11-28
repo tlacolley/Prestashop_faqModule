@@ -23,19 +23,33 @@ class faqModule extends Module
 
     $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
 
-    if (!Configuration::get('FAQMODULE_NAME'))
+    if (!Configuration::get('FAQMODULE_NAME')){
       $this->warning = $this->l('No name provided');
+    }
   }
 
   public function install()
   {
     if (Shop::isFeatureActive())
       Shop::setContext(Shop::CONTEXT_ALL);
+
+    $sql = "CREATE TABLE "._DB_PREFIX_."faq(
+            id INT(2)  PRIMARY KEY, 
+            date_create DATETIME  NOT NULL,
+            date_end DATETIME  NOT NULL ,
+            question VARCHAR(255) NOT NULL,
+            answer VARCHAR(255) NULL
+            )";
+    
+      if (!Db::getInstance()->execute($sql)){
+        die('Erreur etc.');
+      }
+
    
     return parent::install() &&
       $this->registerHook('leftColumn') &&
-      $this->registerHook('header') &&
-      Configuration::updateValue('FAQMODULE_NAME', 'my friend');
+      $this->registerHook('header') ;
+      
   }
 
 
@@ -43,23 +57,29 @@ class faqModule extends Module
   {
     if (!parent::uninstall() ||
       !Configuration::deleteByName('FAQMODULE_NAME')
-    )
+    ){
       return false;
+    }
+
+    $del = "DROP TABLE IF EXISTS `"._DB_PREFIX_."faq`";
+    if(!Db::getInstance()->execute($del)) {
+      return false; 
+    }
 
     return true;
   }
 // -----------------------Hooks --------------
-  public function hookDisplayLeftColumn($params)
-  {
-    $this->context->smarty->assign(
-        array(
-            'faqModule_name' => Configuration::get('FAQMODULE_NAME'),
-            'faqModule_link' => $this->context->link->getModuleLink('faqModule', 'display'),
-            'faqModule_message' => $this->l('This is a simple text message') // Do not forget to enclose your strings in the l() translation method
-        )
-    );
-    return $this->display(__FILE__, 'faqModule.tpl');
-  }
+  // public function hookDisplayLeftColumn($params)
+  // {
+  //   $this->context->smarty->assign(
+  //       array(
+  //           'faqModule_name' => Configuration::get('FAQMODULE_NAME'),
+  //           'faqModule_link' => $this->context->link->getModuleLink('faqModule', 'display'),
+  //           'faqModule_message' => $this->l('This is a simple text message') // Do not forget to enclose your strings in the l() translation method
+  //       )
+  //   );
+  //   return $this->display(__FILE__, 'faqModule.tpl');
+  // }
 
 
 public function hookDisplayFooter(array $params)
@@ -90,8 +110,9 @@ public function getContent()
         $faqModule_name = strval(Tools::getValue('FAQMODULE_NAME'));
         if (!$faqModule_name
           || empty($faqModule_name)
-          || !Validate::isGenericName($faqModule_name))
+          || !Validate::isGenericName($faqModule_name)){
             $output .= $this->displayError($this->l('Invalid Configuration value'));
+          }
         else
         {
             Configuration::updateValue('FAQMODULE_NAME', $faqModule_name);
@@ -161,6 +182,19 @@ public function displayForm()
  
     return $helper->generateForm($fields_form);
 }
+
+
+// public static $definition = [
+//     'table' => 'cms_faq',
+//     'primary' => 'id_cms',
+//     'multilang' => true,
+//     'fields' => array(
+//         'id_cms_category'  => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'],
+//         'position'         => ['type' => self::TYPE_INT],
+//         'active'           => ['type' => self::TYPE_BOOL],
+//     ),
+// ];
+
 
 
 }

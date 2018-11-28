@@ -1,18 +1,28 @@
 
-#formFAQ{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 80%;
-  margin: auto;
-  text-align: center;
-  input{
-    margin: 1% 0;
-    color:white;
+.sec_formFAQ{
+  background-color: lightgrey;
+  margin: 0 16%;
+  padding: 0 2%;
+  border: solid 2px black;
+  h3{
+    text-align:center;
   }
-  button{
-    color: white;
-    width: 40%;
-    margin: 2% auto;
+  #formFAQ{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // width: 40%;
+    margin: auto;
+    text-align: center;
+    input, textarea{
+      margin: 1% 0;
+      color:white;
+      text-align:center;
+    }
+    button{
+      color: white;
+      // width: 40%;
+      margin: 2% auto;
+    }
   }
 }
