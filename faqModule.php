@@ -4,6 +4,8 @@ if (!defined('_PS_VERSION_'))
   exit;
 }
 
+require "models/faq.php";
+
 class faqModule extends Module
 {
   public function __construct()
@@ -33,21 +35,18 @@ class faqModule extends Module
     if (Shop::isFeatureActive())
       Shop::setContext(Shop::CONTEXT_ALL);
 
-    $sql = "CREATE TABLE "._DB_PREFIX_."faq(
-            id INT(2)  PRIMARY KEY, 
-            date_create DATETIME  NOT NULL,
-            date_end DATETIME  NOT NULL ,
-            question VARCHAR(255) NOT NULL,
-            answer VARCHAR(255) NULL
-            )";
-    
+// include request sql here from folder sql
+      include('sql/install.php');
+      
       if (!Db::getInstance()->execute($sql)){
-        die('Erreur etc.');
+        return false;
       }
 
    
     return parent::install() &&
-      $this->registerHook('leftColumn') &&
+    // le registerHook renvoi sur la fonction hookDisplayFooter
+    // ne pas mettre le d en D  
+      $this->registerHook('displayFooter') &&
       $this->registerHook('header') ;
       
   }
@@ -60,8 +59,9 @@ class faqModule extends Module
     ){
       return false;
     }
-
-    $del = "DROP TABLE IF EXISTS `"._DB_PREFIX_."faq`";
+    
+// include request sql here from folder sql
+    include('sql/uninstall.php');
     if(!Db::getInstance()->execute($del)) {
       return false; 
     }
@@ -69,17 +69,6 @@ class faqModule extends Module
     return true;
   }
 // -----------------------Hooks --------------
-  // public function hookDisplayLeftColumn($params)
-  // {
-  //   $this->context->smarty->assign(
-  //       array(
-  //           'faqModule_name' => Configuration::get('FAQMODULE_NAME'),
-  //           'faqModule_link' => $this->context->link->getModuleLink('faqModule', 'display'),
-  //           'faqModule_message' => $this->l('This is a simple text message') // Do not forget to enclose your strings in the l() translation method
-  //       )
-  //   );
-  //   return $this->display(__FILE__, 'faqModule.tpl');
-  // }
 
 
 public function hookDisplayFooter(array $params)
@@ -93,6 +82,7 @@ public function hookDisplayFooter(array $params)
     );
     return $this->display(__FILE__, 'faqModule.tpl');
 }
+
 
   public function hookDisplayHeader()
   {
@@ -184,6 +174,8 @@ public function displayForm()
 }
 
 
+
+// 
 // public static $definition = [
 //     'table' => 'cms_faq',
 //     'primary' => 'id_cms',
@@ -198,4 +190,3 @@ public function displayForm()
 
 
 }
-?>

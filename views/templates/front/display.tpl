@@ -10,14 +10,11 @@
 
 <section class="sec_formFAQ">
 <h3>Ask your question</h3>
-<form id="formFAQ" action="." method="post" >
-  <label for="input_name">Your names:</label>
-  <input type="text" name="name_input" id="input_name">
-  <label for="input_email">Your email:</label>
-  <input type="text" name="email_input" id="input_email">
+// l action du form doit etre vide pour renvoyer sur la meme page
+<form id="formFAQ" action="" method="post" >
   <label for="input_question">Your question:</label>
   <textarea name="question_input" id="input_question"></textarea>
-  <button type="submit">Send your question</button>
+  <button name="btnAddquestion" type="submit">Send your question</button>
 </form>
 
 </section>
