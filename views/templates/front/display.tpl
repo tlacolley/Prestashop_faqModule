@@ -2,10 +2,16 @@
 
 
 {block name="page_content"} 
-<section class="FAQ Area"> 
+<section class="faq_area"> 
 <h2> Welcome to FAQ area !! </h2>
 </section>
-
+<section class="sec_question">
+<ul>
+  {foreach from=$allFaq  item="question"}
+  <li>{$question.question}:{$question.answer}</li>
+  {/foreach}
+</ul>
+</section>
 
 
 <section class="sec_formFAQ">

@@ -27,6 +27,19 @@ class Faq extends ObjectModel{
 ];
 
 
+// class AllQuestion extends DbQuery{
+
+// }
+public function getAllQuestion(){
+
+  $sql = new DbQuery();
+  $sql->select('*');
+  $sql->from('faq');
+  $sql->orderBy('id');
+  return Db::getInstance()->executeS($sql);
+
+}
+
 
 
 }

@@ -32,8 +32,9 @@ class faqModule extends Module
 
   public function install()
   {
-    if (Shop::isFeatureActive())
+    if (Shop::isFeatureActive()){
       Shop::setContext(Shop::CONTEXT_ALL);
+    }
 
 // include request sql here from folder sql
       include('sql/install.php');
@@ -59,7 +60,7 @@ class faqModule extends Module
     ){
       return false;
     }
-    
+
 // include request sql here from folder sql
     include('sql/uninstall.php');
     if(!Db::getInstance()->execute($del)) {
